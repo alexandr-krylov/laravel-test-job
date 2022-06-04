@@ -1,0 +1,27 @@
+services:
+  php81:
+    build:
+      context: ./docker/php
+      args:
+        - USER_ID
+        - GROUP_ID
+    volumes:
+      - ./src:/var/www
+    ports:
+      - "8000:8000"
+    networks:
+      - test-network
+  mariadb:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadbdata:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: secret
+    networks:
+      - test-network
+volumes:
+  mariadbdata:
+networks:
+  test-network:
